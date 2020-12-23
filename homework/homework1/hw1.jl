@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.11.13
+# v0.12.12
 
 using Markdown
 using InteractiveUtils
@@ -15,6 +15,9 @@ end
 
 # ╔═╡ 83eb9ca0-ed68-11ea-0bc5-99a09c68f867
 md"_homework 1, version 4_"
+
+# ╔═╡ 05e765aa-4512-11eb-233e-9531a3adf1d3
+
 
 # ╔═╡ ac8ff080-ed61-11ea-3650-d9df06123e1f
 md"""
@@ -32,7 +35,7 @@ Feel free to ask questions!
 # ╔═╡ 911ccbce-ed68-11ea-3606-0384e7580d7c
 # edit the code below to set your name and kerberos ID (i.e. email without @mit.edu)
 
-student = (name = "Jazzy Doe", kerberos_id = "jazz")
+student = (name = "Vincent Meijer", kerberos_id = "vmeijer")
 
 # press the ▶ button in the bottom right of this cell to run your edits
 # or use Shift+Enter
@@ -87,15 +90,19 @@ md"#### Exerise 1.1
 "
 
 # ╔═╡ f51333a6-eded-11ea-34e6-bfbb3a69bcb0
-random_vect = missing # replace this with your code!
+random_vect = rand(10) # replace this with your code!
 
 # ╔═╡ cf738088-eded-11ea-2915-61735c2aa990
 md"👉 Make a function `mean` using a `for` loop, which computes the mean/average of a vector of numbers."
 
 # ╔═╡ 0ffa8354-edee-11ea-2883-9d5bfea4a236
 function mean(x)
-	
-	return missing
+	result = 0 
+	for i in 1:length(x)
+		result += x[i]
+	end
+	result /= length(x) 
+	return result
 end
 
 # ╔═╡ 1f104ce4-ee0e-11ea-2029-1d9c817175af
@@ -105,15 +112,15 @@ mean([1, 2, 3])
 md"👉 Define `m` to be the mean of `random_vect`."
 
 # ╔═╡ 2a391708-edee-11ea-124e-d14698171b68
-m = missing
+m = mean(random_vect)
 
 # ╔═╡ e2863d4c-edef-11ea-1d67-332ddca03cc4
 md"""👉 Write a function `demean`, which takes a vector `x` and subtracts the mean from each value in `x`."""
 
 # ╔═╡ ec5efe8c-edef-11ea-2c6f-afaaeb5bc50c
 function demean(x)
-	
-	return missing
+	result = x.-mean(x)
+	return result 
 end
 
 # ╔═╡ 29e10640-edf0-11ea-0398-17dbf4242de3
@@ -144,8 +151,9 @@ md"""
 
 # ╔═╡ b6b65b94-edf0-11ea-3686-fbff0ff53d08
 function create_bar()
-	
-	return missing
+	result = zeros(100)
+	result[40:60] .= 1 
+	return result
 end
 
 # ╔═╡ 22f28dae-edf2-11ea-25b5-11c369ae1253
@@ -158,7 +166,7 @@ md"""
 # ╔═╡ 8c19fb72-ed6c-11ea-2728-3fa9219eddc4
 function vecvec_to_matrix(vecvec)
 	
-	return missing
+	return reduce(hcat, vecvec)
 end
 
 # ╔═╡ c4761a7e-edf2-11ea-1e75-118e73dadbed
@@ -173,8 +181,7 @@ md"""
 
 # ╔═╡ 9f1c6d04-ed6c-11ea-007b-75e7e780703d
 function matrix_to_vecvec(matrix)
-	
-	return missing
+	return [matrix[:,i] for i in 1:size(matrix,2)] 
 end
 
 # ╔═╡ 70955aca-ed6e-11ea-2330-89b4d20b1795
@@ -219,12 +226,12 @@ md"""
 
 # ╔═╡ f6898df6-ee07-11ea-2838-fde9bc739c11
 function mean_colors(image)
-	
-	return missing
+	channels = channelview(image) 
+	return (mean(channels[1,:,:]), mean(channels[2,:,:]), mean(channels[3,:,:]))
 end
 
 # ╔═╡ d75ec078-ee0d-11ea-3723-71fb8eecb040
-
+? AbstractRGB
 
 # ╔═╡ f68d4a36-ee07-11ea-0832-0360530f102e
 md"""
@@ -236,22 +243,28 @@ md"""
 begin
 	function quantize(x::Number)
 		
-		return missing
+		return floor(10*x)/10
 	end
 	
 	function quantize(color::AbstractRGB)
 		# you will write me in a later exercise!
-		return missing
+		return RGB(quantize(color.r), quantize(color.g), quantize(color.b))
 	end
 	
 	function quantize(image::AbstractMatrix)
 		# you will write me in a later exercise!
-		return missing
+		return quantize.(image)
 	end
 end
 
 # ╔═╡ f6a655f8-ee07-11ea-13b6-43ca404ddfc7
 quantize(0.267), quantize(0.91)
+
+# ╔═╡ c96c0e82-4516-11eb-3eb2-11c88b7b32aa
+begin
+	myrgb = RGB(0.5, 0.5, 0.5)
+	myrgb.r
+end
 
 # ╔═╡ f6b218c0-ee07-11ea-2adb-1968c4fd473a
 md"""
@@ -285,7 +298,7 @@ md"""
 # ╔═╡ 63e8d636-ee0b-11ea-173d-bd3327347d55
 function invert(color::AbstractRGB)
 	
-	return missing
+	return RGB(1-color.r, 1-color.g, 1-color.b)
 end
 
 # ╔═╡ 2cc2f84e-ee0d-11ea-373b-e7ad3204bb00
@@ -306,30 +319,30 @@ invert(red)
 # ╔═╡ 846b1330-ee0b-11ea-3579-7d90fafd7290
 md"Can you invert the picture of Philip?"
 
-# ╔═╡ 943103e2-ee0b-11ea-33aa-75a8a1529931
-philip_inverted = missing
-
 # ╔═╡ f6d6c71a-ee07-11ea-2b63-d759af80707b
 md"""
 #### Exercise 2.6
 👉 Write a function `noisify(x::Number, s)` to add randomness of intensity $s$ to a value $x$, i.e. to add a random value between $-s$ and $+s$ to $x$. If the result falls outside the range $(0, 1)$ you should "clamp" it to that range. (Note that Julia has a `clamp` function, but you should write your own function `myclamp(x)`.)
 """
 
+# ╔═╡ 779a6ce0-4517-11eb-199a-977bf96f50af
+rand()
+
 # ╔═╡ f6e2cb2a-ee07-11ea-06ee-1b77e34c1e91
 begin
 	function noisify(x::Number, s)
 
-		return missing
+		return x + 2*s*(rand()-0.5)
 	end
 	
 	function noisify(color::AbstractRGB, s)
 		# you will write me in a later exercise!
-		return missing
+		return RGB(noisify(color.r, s), noisify(color.g, s), noisify(color.b, s))
 	end
 	
 	function noisify(image::AbstractMatrix, s)
 		# you will write me in a later exercise!
-		return missing
+		return noisify.(image, s)
 	end
 end
 
@@ -372,7 +385,7 @@ You may need noise intensities larger than 1. Why?
 
 # ╔═╡ bdc2df7c-ee0c-11ea-2e9f-7d2c085617c1
 answer_about_noise_intensity = md"""
-The image is unrecognisable with intensity ...
+The image is unrecognisable with intensity 3.5. Noise intensities larger than 1 are required since we're specifying the standard deviation of the noise distribution.
 """
 
 # ╔═╡ 81510a30-ee0e-11ea-0062-8b3327428f9d
@@ -392,6 +405,9 @@ mean_colors(philip)
 
 # ╔═╡ 9751586e-ee0c-11ea-0cbb-b7eda92977c9
 quantize(philip)
+
+# ╔═╡ 943103e2-ee0b-11ea-33aa-75a8a1529931
+philip_inverted = invert.(philip)
 
 # ╔═╡ ac15e0d0-ee0c-11ea-1eaf-d7f88b5df1d7
 noisify(philip, philip_noise)
@@ -440,7 +456,7 @@ You've seen some colored lines in this notebook to visualize arrays. Can you mak
 """
 
 # ╔═╡ 01070e28-ee0f-11ea-1928-a7919d452bdd
-
+colored_line(v)
 
 # ╔═╡ 7522f81e-ee1c-11ea-35af-a17eb257ff1a
 md"Try changing `n` and `v` around. Notice that you can run the cell `v = rand(n)` again to regenerate new random values."
@@ -458,7 +474,13 @@ A better solution is to use the *closest* value that is inside the vector. Effec
 # ╔═╡ 802bec56-ee09-11ea-043e-51cf1db02a34
 function extend(v, i)
 	
-	return missing
+	if i < 1
+		return v[1]
+	elseif i > length(v)
+		return v[end]
+	else
+		return v[i]
+	end
 end
 
 # ╔═╡ b7f3994c-ee1b-11ea-211a-d144db8eafc2
@@ -497,8 +519,11 @@ md"""
 
 # ╔═╡ 807e5662-ee09-11ea-3005-21fdcc36b023
 function blur_1D(v, l)
-	
-	return missing
+	result = similar(v) 
+	for i in 1:n
+		result[i] = mean([extend(v, i+j) for j in -l:l])
+	end
+	return result
 end
 
 # ╔═╡ 808deca8-ee09-11ea-0ee3-1586fa1ce282
@@ -523,8 +548,14 @@ md"""
 👉 Apply the box blur to your vector `v`. Show the original and the new vector by creating two cells that call `colored_line`. Make the parameter $\ell$ interactive, and call it `l_box` instead of just `l` to avoid a variable naming conflict.
 """
 
-# ╔═╡ ca1ac5f4-ee1c-11ea-3d00-ff5268866f87
+# ╔═╡ f9c36b04-4519-11eb-2050-8b33263015be
+colored_line(v)
 
+# ╔═╡ a93edc3e-4519-11eb-1119-bb4bfa23a9e1
+@bind l_box Slider(1:10)
+
+# ╔═╡ ca1ac5f4-ee1c-11ea-3d00-ff5268866f87
+colored_line(blur_1D(v, l_box))
 
 # ╔═╡ 80ab64f4-ee09-11ea-29b4-498112ed0799
 md"""
@@ -542,8 +573,13 @@ Again, we need to take care about what happens if $v_{i -n }$ falls off the end 
 
 # ╔═╡ 28e20950-ee0c-11ea-0e0a-b5f2e570b56e
 function convolve_vector(v, k)
+	result = similar(v)
+	l = Int64((length(k)-1)/2)
+	for i in 1:length(v)
+		result[i] = sum([extend(v, i+j)*k[l+1+j] for j in -l:l])
+	end
 	
-	return missing
+	return result
 end
 
 # ╔═╡ 93284f92-ee12-11ea-0342-833b1a30625c
@@ -576,15 +612,17 @@ For simplicity you can take $\sigma=1$.
 
 # ╔═╡ 1c8b4658-ee0c-11ea-2ede-9b9ed7d3125e
 function gaussian_kernel(n)
-	
-	return missing
+	x = collect(LinRange(-1, 1, n))
+	result = 1/sqrt(2pi) * exp.(-0.5*x.^2)
+	result ./= sum(result)
+	return result
 end
 
 # ╔═╡ f8bd22b8-ee14-11ea-04aa-ab16fd01826e
 md"Let's test your kernel function!"
 
 # ╔═╡ 2a9dd06a-ee13-11ea-3f84-67bb309c77a8
-gaussian_kernel_size_1D = 3 # change this value, or turn me into a slider!
+gaussian_kernel_size_1D = 5 # change this value, or turn me into a slider
 
 # ╔═╡ 38eb92f6-ee13-11ea-14d7-a503ac04302e
 test_gauss_1D_a = let
@@ -638,7 +676,32 @@ md"""
 # ╔═╡ 7c2ec6c6-ee15-11ea-2d7d-0d9401a5e5d1
 function extend_mat(M::AbstractMatrix, i, j)
 	
-	return missing
+	if i < 1
+		if j < 1
+			return M[1,1]
+		elseif j > size(M,2)
+			return M[1,end]
+		else
+			return M[1,j]
+		end
+	elseif i > size(M,1)
+		if j < 1
+			return M[end,1]
+		elseif j > size(M,2)
+			return M[end,end]
+		else
+			return M[end,j]
+		end
+	else
+		if j < 1
+			return M[i,1]
+		elseif j > size(M,2)
+			return M[i,end]
+		else
+			return M[i,j]
+		end
+		
+	end 
 end
 
 # ╔═╡ 9afc4dca-ee16-11ea-354f-1d827aaa61d2
@@ -673,8 +736,15 @@ md"""
 
 # ╔═╡ 8b96e0bc-ee15-11ea-11cd-cfecea7075a0
 function convolve_image(M::AbstractMatrix, K::AbstractMatrix)
-	
-	return missing
+	num_rows, num_cols = size(K)
+	k_c = Int64((num_rows-1)/2)
+	l_c = Int64((num_cols-1)/2)
+	result = similar(M) 
+	for i in 1:size(M,1), j in 1:size(M,2)
+		result[i,j] = sum([extend_mat(M, i+k, j+l)*K[k_c+k+1,l_c+l+1] for k in -k_c:k_c, l in -l_c:l_c])
+	end
+
+	return result 
 end
 
 # ╔═╡ 5a5135c6-ee1e-11ea-05dc-eb0c683c2ce5
@@ -720,8 +790,8 @@ $$G(x,y)=\frac{1}{2\pi \sigma^2}e^{\frac{-(x^2+y^2)}{2\sigma^2}}$$
 
 # ╔═╡ aad67fd0-ee15-11ea-00d4-274ec3cda3a3
 function with_gaussian_blur(image)
-	
-	return missing
+	kernel = gaussian_kernel(5).*gaussian_kernel(5)'
+	return convolve_image(image, kernel)
 end
 
 # ╔═╡ 8ae59674-ee18-11ea-3815-f50713d0fa08
@@ -772,8 +842,14 @@ For simplicity you can choose one of the "channels" (colours) in the image to ap
 
 # ╔═╡ 9eeb876c-ee15-11ea-1794-d3ea79f47b75
 function with_sobel_edge_detect(image)
+	channel = channelview(image)[:,:,1]
+	x_kernel = [1 0 -1; 2 0 -2 ; 1 0 -1]
+	y_kernel = [1 2 1 ; 0 0 0 ; -1 -2 -1]
 	
-	return missing
+	Gx = convolve_image(channel, x_kernel)
+	Gy = convolve_image(channel, y_kernel)
+	G = sqrt.(Gx.^2 .+ Gy.^2)
+	return RGB.(G, G, G)
 end
 
 # ╔═╡ 1b85ee76-ee10-11ea-36d7-978340ef61e6
@@ -1351,6 +1427,7 @@ with_sobel_edge_detect(sobel_camera_image)
 # ╔═╡ Cell order:
 # ╠═83eb9ca0-ed68-11ea-0bc5-99a09c68f867
 # ╟─8ef13896-ed68-11ea-160b-3550eeabbd7d
+# ╠═05e765aa-4512-11eb-233e-9531a3adf1d3
 # ╟─ac8ff080-ed61-11ea-3650-d9df06123e1f
 # ╠═911ccbce-ed68-11ea-3606-0384e7580d7c
 # ╟─5f95e01a-ee0a-11ea-030c-9dba276aba92
@@ -1405,6 +1482,7 @@ with_sobel_edge_detect(sobel_camera_image)
 # ╟─f68d4a36-ee07-11ea-0832-0360530f102e
 # ╠═f6991a50-ee07-11ea-0bc4-1d68eb028e6a
 # ╠═f6a655f8-ee07-11ea-13b6-43ca404ddfc7
+# ╠═c96c0e82-4516-11eb-3eb2-11c88b7b32aa
 # ╟─c905b73e-ee1a-11ea-2e36-23b8e73bfdb6
 # ╟─f6b218c0-ee07-11ea-2adb-1968c4fd473a
 # ╟─f6bf64da-ee07-11ea-3efb-05af01b14f67
@@ -1420,6 +1498,7 @@ with_sobel_edge_detect(sobel_camera_image)
 # ╟─846b1330-ee0b-11ea-3579-7d90fafd7290
 # ╠═943103e2-ee0b-11ea-33aa-75a8a1529931
 # ╟─f6d6c71a-ee07-11ea-2b63-d759af80707b
+# ╠═779a6ce0-4517-11eb-199a-977bf96f50af
 # ╠═f6e2cb2a-ee07-11ea-06ee-1b77e34c1e91
 # ╟─f6ef2c2e-ee07-11ea-13a8-2512e7d94426
 # ╟─f6fc1312-ee07-11ea-39a0-299b67aee3d8
@@ -1459,7 +1538,9 @@ with_sobel_edge_detect(sobel_camera_image)
 # ╠═807e5662-ee09-11ea-3005-21fdcc36b023
 # ╟─808deca8-ee09-11ea-0ee3-1586fa1ce282
 # ╟─809f5330-ee09-11ea-0e5b-415044b6ac1f
+# ╠═f9c36b04-4519-11eb-2050-8b33263015be
 # ╠═ca1ac5f4-ee1c-11ea-3d00-ff5268866f87
+# ╠═a93edc3e-4519-11eb-1119-bb4bfa23a9e1
 # ╟─ea435e58-ee11-11ea-3785-01af8dd72360
 # ╟─80ab64f4-ee09-11ea-29b4-498112ed0799
 # ╠═28e20950-ee0c-11ea-0e0a-b5f2e570b56e
